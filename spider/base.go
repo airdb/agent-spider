@@ -118,7 +118,7 @@ func BatchTcpGather(path string) {
 	}
 	ch := make(chan AuthAgent)
 	// agentlen := len(agentArr)
-	for index, val := range agentArr {
+	for _, val := range agentArr {
 		go func(val Agent) {
 			err := TcpGather("http", val.Ip, val.Port)
 			AuthAgentData := AuthAgent{
