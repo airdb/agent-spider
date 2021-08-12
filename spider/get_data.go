@@ -47,7 +47,6 @@ func (s *Spider) GetPageSize() int64 {
 // GetList 获取ip列表
 func (s *Spider) GetList(pageSize int64) {
 	// url := "https://www.89ip.cn/index_2.html"
-	fmt.Println("get list ")
 	s.Collector.Limit(&colly.LimitRule{
 		DomainGlob:  "*89ip*",
 		Parallelism: 2,
@@ -77,3 +76,4 @@ func (s *Spider) GetList(pageSize int64) {
 
 	s.Collector.Wait()
 }
+

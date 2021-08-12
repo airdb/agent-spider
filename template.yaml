@@ -1,0 +1,34 @@
+# Refer: https://cloud.tencent.com/document/product/583/36198.
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 128
+    Runtime: Go1
+    Handler: main
+    CodeUri: ./
+
+Resources:
+  default:
+    Type: TencentCloud::Serverless::Namespace
+    timer-mina:
+      Type: TencentCloud::Serverless::Function
+      Properties:
+        Type: Event
+        Timeout: 300
+        Description: timer for mina api.
+        Environment:
+          Variables:
+            AIRDB_DB_BBHJ_BBS_READ: "readonly:baobeihuijia$@tcp(10.0.2.208:3306)/bbs"
+            AIRDB_DB_MINA_API_WRITE: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_mina"
+            AIRDB_DB_MINA_API_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_mina"
+        VpcConfig:
+            VpcId: 'vpc-qygxbkdo'
+            SubnetId: 'subnet-5ok5f81d'
+        Events:
+            timer-mina:
+                Type: Timer
+                Properties:
+                    # Sec, Min, Hour, Day, Month, Weekday, Year.
+                    # CronExpression: '*/1 * * * *'
+                    CronExpression: '0 */2 * * * * *'
+                    Enable: True
