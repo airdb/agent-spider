@@ -10,22 +10,22 @@ Globals:
 Resources:
   default:
     Type: TencentCloud::Serverless::Namespace
-    timer-mina:
+    timer-crawler:
       Type: TencentCloud::Serverless::Function
       Properties:
         Type: Event
         Timeout: 300
-        Description: timer for mina api.
+        Description: timer for agent spider.
         Environment:
           Variables:
-            AIRDB_DB_BBHJ_BBS_READ: "readonly:baobeihuijia$@tcp(10.0.2.208:3306)/bbs"
-            AIRDB_DB_MINA_API_WRITE: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_mina"
-            AIRDB_DB_MINA_API_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_mina"
+            AIRDB_DB_BBHJ_BBS_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+            AIRDB_DB_MINA_API_WRITE: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+            AIRDB_DB_MINA_API_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
         VpcConfig:
             VpcId: 'vpc-qygxbkdo'
             SubnetId: 'subnet-5ok5f81d'
         Events:
-            timer-mina:
+            timer-crawler:
                 Type: Timer
                 Properties:
                     # Sec, Min, Hour, Day, Month, Weekday, Year.

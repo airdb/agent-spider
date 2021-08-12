@@ -69,7 +69,7 @@ func Spider89IPCNHTMLParse(doc *html.Node, reqUrl string) {
 			Actived = true
 		}
 		data.ProxyType = httpType
-		data.Actived = Actived
+		data.Actived = &Actived
 
 		AgentIpArrPo = append(AgentIpArrPo, data)
 	}
