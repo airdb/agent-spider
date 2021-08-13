@@ -19,7 +19,7 @@ inputs:
   handler: main
   description: timer-crawler 爬虫
   memorySize: 128 # 内存大小，单位MB
-  timeout: 20 # 函数执行超时时间，单位秒
+  timeout: 1800 # 函数执行超时时间，单位秒
   initTimeout: 3 # 初始化超时时间，单位秒
 
   environment: #  环境变量
