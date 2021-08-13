@@ -2,7 +2,7 @@ SHELL = /bin/bash
 
 SLSENV=SERVERLESS_PLATFORM_VENDOR=tencent
 
-all: build docker
+all: build deploy
 
 build:
 	GOOS=linux go build -o main main.go
