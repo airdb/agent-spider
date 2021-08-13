@@ -1,0 +1,40 @@
+# Refer: https://cloud.tencent.com/document/product/583/36198.
+
+name: timer-crawler
+stage: ${env.STAGE} # 环境名称。默认值是 dev。建议使用${env.STAGE}变量定义环境名称
+component: scf
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 128
+    Runtime: Go1
+    CodeUri: ./
+    runtime: Golang1
+
+Resources:
+  default:
+    Type: TencentCloud::Serverless::Namespace
+    timer-crawler:
+      Type: TencentCloud::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Description: timer for agent spider.
+        Handler: main
+        runtime: Golang1
+        Environment:
+          Variables:
+            AIRDB_DB_BBHJ_BBS_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+            AIRDB_DB_MINA_API_WRITE: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+            AIRDB_DB_MINA_API_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+        VpcConfig:
+          VpcId: 'vpc-qygxbkdo'
+          SubnetId: 'subnet-5ok5f81d'
+        Events:
+          timer-crawler:
+            Type: Timer
+            Properties:
+              # Sec, Min, Hour, Day, Month, Weekday, Year.
+              # CronExpression: '*/1 * * * *'
+              CronExpression: '*/2 * * * * * *'
+              Enable: True

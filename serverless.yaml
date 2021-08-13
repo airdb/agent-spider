@@ -1,39 +1,41 @@
-# Refer: https://cloud.tencent.com/document/product/583/36198.
-
-name: timer-crawler
+# Ref: https://github.com/serverless-components/tencent-scf/blob/master/docs/configure.md.
+#应用组织信息
+org: '' # 组织名称。留空则则使用默认值为用户appid
+app: 'timer-crawler' # 应用名称。留空则默认取当前组件的实例名称为app名称。
+#stage: 'test' # 环境名称。默认值是 dev。建议使用${env.STAGE}变量定义环境名称
 stage: ${env.STAGE} # 环境名称。默认值是 dev。建议使用${env.STAGE}变量定义环境名称
+
 component: scf
+name: timer-crawler
 
-Globals:
-  Function:
-    Timeout: 10
-    MemorySize: 128
-    Runtime: Go1
-    CodeUri: ./
+inputs:
+  src:
+    src: ./
+    hook: "ls"
+    exclude:
+      - .env
+  region: ap-shanghai
+  runtime: Go1
+  handler: main
+  description: timer-crawler 爬虫
+  memorySize: 128 # 内存大小，单位MB
+  timeout: 20 # 函数执行超时时间，单位秒
+  initTimeout: 3 # 初始化超时时间，单位秒
 
-Resources:
-  default:
-    Type: TencentCloud::Serverless::Namespace
-    timer-crawler:
-      Type: TencentCloud::Serverless::Function
-      Properties:
-        CodeUri: ./
-        Description: timer for agent spider.
-        Handler: main
-        runtime: Golang1
-        Environment:
-          Variables:
-            AIRDB_DB_BBHJ_BBS_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
-            AIRDB_DB_MINA_API_WRITE: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
-            AIRDB_DB_MINA_API_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
-        VpcConfig:
-            VpcId: 'vpc-qygxbkdo'
-            SubnetId: 'subnet-5ok5f81d'
-        Events:
-            timer-crawler:
-                Type: Timer
-                Properties:
-                    # Sec, Min, Hour, Day, Month, Weekday, Year.
-                    # CronExpression: '*/1 * * * *'
-                    CronExpression: '*/2 * * * * * *'
-                    Enable: True
+  environment: #  环境变量
+    variables: #  环境变量对象
+      ENV: ${stage}
+      AIRDB_DB_BBHJ_BBS_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+      AIRDB_DB_MINA_API_WRITE: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+      AIRDB_DB_MINA_API_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
+  publicAccess: true # 是否开启公网访问
+  vpcConfig:
+    vpcId: 'vpc-qygxbkdo'
+    subnetId: 'subnet-o279ll7f'
+  events:
+    - timer:
+        parameters:
+          # Sec, Min, Hour, Day, Month, Weekday, Year.
+          # CronExpression: '*/1 * * * *'
+          cronExpression: '*/2 * * * * * *'
+          enable: True
