@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/PuerkitoBio/goquery v1.7.1 // indirect
-	github.com/airdb/sailor v1.3.0
+	github.com/airdb/sailor v0.0.2
 	github.com/antchfx/htmlquery v1.2.3
 	github.com/antchfx/xmlquery v1.3.6 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect

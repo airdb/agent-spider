@@ -9,7 +9,6 @@ Globals:
     Timeout: 10
     MemorySize: 128
     Runtime: Go1
-    Handler: main
     CodeUri: ./
 
 Resources:
@@ -18,9 +17,10 @@ Resources:
     timer-crawler:
       Type: TencentCloud::Serverless::Function
       Properties:
-        Type: Event
-        Timeout: 300
+        CodeUri: ./
         Description: timer for agent spider.
+        Handler: main
+        runtime: Golang1
         Environment:
           Variables:
             AIRDB_DB_BBHJ_BBS_READ: "mina:Mina@123@tcp(sh-cdb-n7qw1jqg.sql.tencentcdb.com:62974)/dev_airdb"
@@ -35,5 +35,5 @@ Resources:
                 Properties:
                     # Sec, Min, Hour, Day, Month, Weekday, Year.
                     # CronExpression: '*/1 * * * *'
-                    CronExpression: '0 */2 * * * * *'
+                    CronExpression: '*/2 * * * * * *'
                     Enable: True

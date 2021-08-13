@@ -1,6 +1,6 @@
 package po
 
-import "github.com/airdb/sailor/dbutils"
+import dbutils "github.com/airdb/sailor/dbutil"
 
 const (
 	dbBbhjBBSRead  = "AIRDB_DB_BBHJ_BBS_READ"

@@ -1,7 +1,7 @@
 package po
 
 import (
-	"github.com/airdb/sailor/dbutils"
+	dbutils "github.com/airdb/sailor/dbutil"
 	"github.com/jinzhu/gorm"
 )
 
