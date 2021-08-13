@@ -1,4 +1,9 @@
 # Refer: https://cloud.tencent.com/document/product/583/36198.
+
+name: timer-crawler
+stage: ${env.STAGE} # 环境名称。默认值是 dev。建议使用${env.STAGE}变量定义环境名称
+component: scf
+
 Globals:
   Function:
     Timeout: 10
