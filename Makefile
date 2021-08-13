@@ -6,10 +6,13 @@ build:
 	GOOS=linux go build -o main main.go
 
 deploy:
-	scf deploy -t template.yaml  -f
+	sls deploy --stage test
 
 docker:
 	docker run -it --rm  --env-file ~/.env -v $(shell pwd):/srv airdb/scf
 
 log:
-	docker run -it --rm  --env-file ~/.env -v $(shell pwd):/srv airdb/scf scf logs --name timer-mina
+	${SLSENV} sls logs --tail --stage test
+
+logrelease:
+	${SLSENV} sls logs --tail --stage release
