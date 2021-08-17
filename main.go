@@ -19,5 +19,5 @@ func main() {
 func Run(ctx context.Context, event events.TimerEvent) {
 	fmt.Println("hello", time.Now())
 
-	spider.TimerSyncSpiderTest()
+	spider.TimerSyncSpider()
 }
