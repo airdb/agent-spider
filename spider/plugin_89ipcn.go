@@ -1,6 +1,7 @@
 package spider
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -46,25 +47,25 @@ func Spider89IPCNHTMLParse(doc *html.Node, reqUrl string) {
 					strings.Replace(address, " ", "", -1),
 					"\n", "", -1),
 				"	", "", -1),
-			Operator:  strings.Replace(
+			Operator: strings.Replace(
 				strings.Replace(
 					strings.Replace(operator, " ", "", -1),
 					"\n", "", -1),
 				"	", "", -1),
-			Origin:  Host89IPCN,
-			Actived: &Actived,
+			Origin:        Host89IPCN,
+			Actived:       &Actived,
 			LastCheckedAt: uint(time.Now().Unix()),
 		}
 
-		httpErr := TcpGather("http", data.IP,data.Port)
-		httpsErr := TcpGather("https", data.IP,data.Port)
+		httpErr := TcpGather("http", data.IP, data.Port)
+		httpsErr := TcpGather("https", data.IP, data.Port)
 		ipArr = append(ipArr, data.IP)
 
-		if httpErr == nil  {
+		if httpErr == nil {
 			httpType = "http"
 			Actived = true
 		}
-		if httpsErr == nil  {
+		if httpsErr == nil {
 			httpType = "https"
 			Actived = true
 		}
@@ -72,24 +73,25 @@ func Spider89IPCNHTMLParse(doc *html.Node, reqUrl string) {
 		data.Actived = &Actived
 
 		AgentIpArrPo = append(AgentIpArrPo, data)
+		fmt.Println(data)
 	}
 
 	ipData := po.BatchFindIp(ipArr)
 	ipDbDataMap := make(map[string]*po.AgentIp)
-	for _, val := range ipData{
+	for _, val := range ipData {
 		ipDbDataMap[val.IP+":"+val.Port] = val
 	}
 
 	// 拼接 insert data、update data
-	var updatePo,insertPo []po.AgentIp
-	for _,agentIpPo := range AgentIpArrPo{
+	var updatePo, insertPo []po.AgentIp
+	for _, agentIpPo := range AgentIpArrPo {
 		// update
-		if  val,ok := ipDbDataMap[agentIpPo.IP+":"+agentIpPo.Port]; ok {
+		if val, ok := ipDbDataMap[agentIpPo.IP+":"+agentIpPo.Port]; ok {
 			agentIpPo.ID = val.ID
 			agentIpPo.CreatedAt = val.CreatedAt
 			agentIpPo.UpdatedAt = val.UpdatedAt
 			agentIpPo.LastCheckedAt = val.LastCheckedAt
-			updatePo = append(updatePo,agentIpPo)
+			updatePo = append(updatePo, agentIpPo)
 			continue
 		}
 		// insert
@@ -97,20 +99,20 @@ func Spider89IPCNHTMLParse(doc *html.Node, reqUrl string) {
 	}
 	// batch insert
 	var insertErr, updateErr error
-	if len(insertPo) >0 {
+	if len(insertPo) > 0 {
 		insertErr = po.BatchAgentInsert(insertPo)
 	}
 
-	if len(updatePo) > 0{
-		for _,val := range updatePo{
+	if len(updatePo) > 0 {
+		for _, val := range updatePo {
 			updateErr = po.UpdateAgent(&val)
 			if updateErr != nil {
-				log.Println("【update error】",updateErr, val)
+				log.Println("【update error】", updateErr, val)
 			}
 		}
 	}
 
 	if insertErr != nil {
-		log.Println("【insert error】",insertErr, insertPo)
+		log.Println("【insert error】", insertErr, insertPo)
 	}
 }

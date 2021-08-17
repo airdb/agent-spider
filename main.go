@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"github.com/tencentyun/scf-go-lib/cloudfunction"
-	"time"
 	"context"
+	"fmt"
+	"time"
+
+	"github.com/tencentyun/scf-go-lib/cloudfunction"
+	"github.com/yino/AgentSpider/spider"
 
 	"github.com/tencentyun/scf-go-lib/events"
-	"github.com/yino/AgentSpider/spider"
 )
 
 func main() {
@@ -18,5 +19,5 @@ func main() {
 func Run(ctx context.Context, event events.TimerEvent) {
 	fmt.Println("hello", time.Now())
 
-	spider.TimerSyncSpider()
+	spider.TimerSyncSpiderTest()
 }
