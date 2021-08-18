@@ -5,13 +5,17 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/tencentyun/scf-go-lib/cloudfunction"
 	"github.com/yino/AgentSpider/spider"
 
+	"github.com/tencentyun/scf-go-lib/cloudfunction"
 	"github.com/tencentyun/scf-go-lib/events"
 )
 
 func main() {
+	spider.TimerSyncFreeProxy()
+}
+
+func Test() {
 	cloudfunction.Start(Run)
 }
 
