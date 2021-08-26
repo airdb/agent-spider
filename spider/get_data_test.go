@@ -3,7 +3,7 @@ package spider_test
 import (
 	"testing"
 
-	"github.com/yino/AgentSpider/spider"
+	"github.com/airdb/AgentSpider/spider"
 )
 
 func TestGet89ipCnList(t *testing.T) {

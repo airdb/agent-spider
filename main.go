@@ -5,17 +5,18 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yino/AgentSpider/spider"
-
+	"github.com/airdb/AgentSpider/spider"
+	"github.com/airdb/sailor/deployutil"
 	"github.com/tencentyun/scf-go-lib/cloudfunction"
 	"github.com/tencentyun/scf-go-lib/events"
 )
 
 func main() {
 	spider.TimerSyncFreeProxy()
-}
+	if deployutil.IsStageDev() {
+		spider.TimerSyncSpider()
+	}
 
-func Test() {
 	cloudfunction.Start(Run)
 }
 

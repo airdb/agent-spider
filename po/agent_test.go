@@ -3,7 +3,7 @@ package po_test
 import (
 	"testing"
 
-	"github.com/yino/AgentSpider/po"
+	"github.com/airdb/AgentSpider/po"
 )
 
 func TestBatchFindIp(t *testing.T) {
