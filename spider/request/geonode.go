@@ -9,6 +9,7 @@ import (
 
 	"github.com/airdb/AgentSpider/po"
 	"github.com/airdb/AgentSpider/spider"
+	"github.com/airdb/sailor/deployutil"
 	"github.com/asmcos/requests"
 )
 
@@ -33,10 +34,12 @@ func Geonode() {
 		fmt.Println("Get Total Geonode Umarshal failed:", err)
 		return
 	}
-	// total := m["total"].(float64)
+	total := m["total"].(float64)
+	url := fmt.Sprintf("https://proxylist.geonode.com/api/proxy-list?limit=%d&page=1&sort_by=lastChecked&sort_type=desc", (int(total)))
 
-	url := fmt.Sprintf("https://proxylist.geonode.com/api/proxy-list?limit=%d&page=1&sort_by=lastChecked&sort_type=desc", (int(10)))
-	// url := fmt.Sprintf("https://proxylist.geonode.com/api/proxy-list?limit=%d&page=1&sort_by=lastChecked&sort_type=desc", (int(total)))
+	if deployutil.IsStageDev() {
+		url = fmt.Sprintf("https://proxylist.geonode.com/api/proxy-list?limit=%d&page=1&sort_by=lastChecked&sort_type=desc", (int(10)))
+	}
 	fmt.Println(url)
 	resp, err = req.Get(url)
 
