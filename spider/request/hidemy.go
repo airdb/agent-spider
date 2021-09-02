@@ -23,7 +23,7 @@ func Hidemy() {
 	resp, err := req.Get("http://hidemy.name/en/proxy-list/#list")
 
 	if err != nil {
-		log.Println("Get Total Geonode:", err)
+		log.Println("Get Total Hidemy:", err)
 		return
 	}
 	fmt.Println(resp.Text())
@@ -43,7 +43,8 @@ func NewRequest(headerFilepath string) (*requests.Request, error) {
 		for _, line := range contentLines {
 			headers := strings.Split(line, ":")
 			headerValue := strings.Join(headers[1:], ":")
-			req.Header.Add(headers[0], headerValue)
+			fmt.Println(headers[0], headerValue)
+			req.Header.Set(headers[0], headerValue)
 		}
 	}
 	return req, nil
